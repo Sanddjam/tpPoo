@@ -21,20 +21,29 @@ class Bdd{
 
     } 
 
+    public static function listeAbonne() {
+        global $pdo;
+        $pdostatement = $pdo->query("SELECT * FROM abonne");
+        require "Modeles/Abonne.php";
+
+        $abonnes = $pdostatement->fetchAll(PDO::FETCH_CLASS, "Abonne");
+
+        return $abonnes;
+    }
     /**
      * Récupérer la liste des enregistrements d'une table, passée en paramètre
      * @para string $stable
      */
 
-     static public function liste(){
-         global $pdo;
-         $pdostatement = $pdo->query("SELECT * FROM $table");
-
-         if($pdostatement){
-             //temporaire
-             require "Modeles/" . ucfirst($table) . ".php";
-             //
-             return $pdostatement->fetchAll(PDO::FETCH_CLASS, ucfirst($table));
-         }
-     }
+    static public function liste($table)
+    {
+        global $pdo;
+        $pdostatement = $pdo->query("SELECT * FROM $table");
+        if( $pdostatement ){
+            // temporaire
+            require "Modeles/" . ucfirst($table) . ".php";
+            //
+            return $pdostatement->fetchAll(PDO::FETCH_CLASS, ucfirst($table));
+        }
+    }
 }
