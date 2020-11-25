@@ -6,7 +6,7 @@ class AbonneControleur{
         echo "<h1>Liste des abonnés</h1>";
         
         include "Modeles/Bdd.php";
-        $abonnes = Bdd::listeAbonne();
+        $abonnes = Bdd::liste($abonne);
         var_dump($abonnes);
         include "vues/abonne/table.html.php";
     }
