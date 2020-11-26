@@ -66,7 +66,7 @@ class LivreControleur
                         }
                     }
                 }
-                $this->rendu("livre/formulaire.html.php");
+                $this->rendu("livre/formulaire.html.php", ["livre" => $livre]);
             }
         }
     }
