@@ -20,7 +20,8 @@ $pdo = new PDO("mysql:host=localhost;dbname=biblio;charset=utf8", "root", "");
 
  /*ucfirst : met une majuscule au début d'une chaine de caractère */
 $controleur = ucfirst($controleur); //ex: Livre
-$classeControleur = $controleur . "Controleur"; //ex: LivreControleur
+//$classeControleur = $controleur . "Controleur"; //ex: LivreControleur
+$classeControleur = "Controleurs\\" . $controleur . "Controleur"; //ex: LivreControleur
 
 
  //Création d'un objet LivreControleur
