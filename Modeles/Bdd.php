@@ -57,4 +57,18 @@ abstract class Bdd{
             return $pdostatement->fetchAll(PDO::FETCH_CLASS, $classe);
         }
     }
+
+    /**
+     * Dans les paramètres des méthodes (ou fonctions), je peux décider le type de chaque paramètres. Si la valeur envoyé n'a pas le bon type, une erreur est renvoyée.
+     */
+    public static function enregistrerLivre(Livre $livre){
+        // INSERT INTO livre (titre, auteur) VALUES (:titre, :auteur)
+        $texteRequete = "INSERT INTO livre (titre, auteur) VALUES (:titre, :auteur)";
+        global $pdo;
+        $pdostatement = $pdo->prepare($texteRequete);
+        $pdostatement->bindValue(":titre", $livre->getTitre());
+        $pdostatement->bindValue(":auteur", $livre->getAuteur());
+        return $pdostatement->execute();
+
+    }
 }
