@@ -1,5 +1,7 @@
 <?php
 
+namespace Modeles;
+
 class Emprunt{
     private $id;
     private $livre_id;
