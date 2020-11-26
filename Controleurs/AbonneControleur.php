@@ -6,13 +6,14 @@ class AbonneControleur{
         echo "<h1>Liste des abonnés</h1>";
         
         include "Modeles/Bdd.php";
-        $abonnes = Bdd::listeAbonne();
-        var_dump($abonnes);
+        $abonnes = Bdd::listeAbonne("abonne");
+        
         include "vues/abonne/table.html.php";
     }
 
     public function ajouter() {
         echo "<h1>Ajouter un abonné</h1>";
+        
     }
 
     public function test() {

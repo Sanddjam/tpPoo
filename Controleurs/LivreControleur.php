@@ -10,7 +10,8 @@ class LivreControleur{
         echo "<h1>Liste des livres</h1>";
         
         include "Modeles/Bdd.php";
-        $livres = Bdd::listeLivre();
+        //$livres = Bdd::listeLivre();
+        $livres = Bdd::liste("livre");
         
         include "vues/livre/table.html.php";
 
