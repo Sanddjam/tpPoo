@@ -12,6 +12,7 @@ Contrairement à un site développé en procédural, lorsque l'on veut ajouter u
  */
 namespace Controleurs;
  use Modeles\Bdd; // indique que dans ce fichier je vais utiliser cette classe et du coup plus besoin d'utiliser le chemin de la ligne 23.
+ use Modeles\Livre;
 
 class LivreControleur{
     public function liste(){
@@ -27,7 +28,20 @@ class LivreControleur{
     }
 
     public function ajouter(){
-        echo "<h1>Ajouter un livre</h1>";
+        if($_POST){
+            extract($_POST);
+            if(!empty($titre) && !empty($auteur)){
+                $livre = new Livre;
+                $livre->setTitre($titre);
+                $livre->setAuteur($auteur);
+                $resultat = Bdd::enregistrerLivre($livre);
+                if($resultat){
+                    header("Location:index.php?controleur=livre&methode=liste");
+                    exit;
+                }
+            }
+        }
+       $this->rendu("livre/formulaire.html.php");
     }
 
     public function rendu($fichierVue, $parametresVue=[]){
