@@ -1,5 +1,6 @@
 <?php
 
+namespace Modeles;
 class Abonne{
     private $id;
     private $prenom;
