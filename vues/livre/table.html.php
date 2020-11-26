@@ -3,6 +3,7 @@
         <th>Id</th>
         <th>Titre</th>
         <th>Auteur</th>
+        <th>Action</th>
     </thead>
     <?php foreach ($livres as $livre) : ?>
         <tr>

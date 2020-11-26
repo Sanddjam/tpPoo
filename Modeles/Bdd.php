@@ -95,4 +95,12 @@ abstract class Bdd
             return false;
         }
     }
+
+    public static function supprimer($table, $id){
+        //DELETE FROM livre WHERE id =global
+        global $pdo;
+        // Renvoie le nombre de lignes affectées par la requête
+        $resultat = $pdo->exec("DELETE FROM $table WHERE id= $id");
+        return $resultat;
+    }
 }
