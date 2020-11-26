@@ -4,8 +4,14 @@
 */
 
 // je crée une fonction qui va faire un "require" de la classe dont j'ai besoin
+
+
 function chargerClasse($classe){
-    require_once "Controleurs/" . $classe . ".php";
+    // je remplace les \ dans le nom de la classe par des /
+    // le / est le caractère de séparation des dossiers utilisés dans la plupart des systèmes d'exploitation (OS)
+
+    $classe = str_replace("\\", "/", $classe);
+    require_once  $classe . ".php";
 }
 
 /*
