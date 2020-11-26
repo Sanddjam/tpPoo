@@ -4,13 +4,15 @@ namespace Modeles;
 
 /*indique qu'on veut utiliser la classe PDO. on indique les classes que l'on va utiliser dans ce fichier PHP qui ne sont pas dans le même namespace. 
 cela permet de créer un alias de la classe*/
+
 use PDO;
 
 /**
  * Un classe abstraite ne peut pas être instanciée (on ne peut pas faire new Bdd).
  * Cette classe servira à exécuter des méthodes statiques ou pourra être héritée.
  */
-abstract class Bdd{
+abstract class Bdd
+{
 
     /**
      * Une méthode statique (ou méthode de classe) n'est pas liée à un objet mais à une classe.
@@ -18,7 +20,8 @@ abstract class Bdd{
      * synthaxe : 
      * -------Bdd::listeLivre()-------
      */
-    public static function listeLivre() {
+    public static function listeLivre()
+    {
         global $pdo;
         $pdostatement = $pdo->query("SELECT * FROM livre");
         require "Modeles/Livre.php";
@@ -28,10 +31,10 @@ abstract class Bdd{
         // Le 2e argument est le nom de la classe à utiliser
         $livres = $pdostatement->fetchAll(\PDO::FETCH_CLASS, "Livre");
         return $livres;
+    }
 
-    } 
-
-    public static function listeAbonne() {
+    public static function listeAbonne()
+    {
         global $pdo;
         $pdostatement = $pdo->query("SELECT * FROM abonne");
         require "Modeles/Abonne.php";
@@ -49,7 +52,7 @@ abstract class Bdd{
     {
         global $pdo;
         $pdostatement = $pdo->query("SELECT * FROM $table");
-        if( $pdostatement ){
+        if ($pdostatement) {
             // temporaire
             //require "Modeles/" . ucfirst($table) . ".php";
             //
@@ -61,14 +64,35 @@ abstract class Bdd{
     /**
      * Dans les paramètres des méthodes (ou fonctions), je peux décider le type de chaque paramètres. Si la valeur envoyé n'a pas le bon type, une erreur est renvoyée.
      */
-    public static function enregistrerLivre(Livre $livre){
-        // INSERT INTO livre (titre, auteur) VALUES (:titre, :auteur)
-        $texteRequete = "INSERT INTO livre (titre, auteur) VALUES (:titre, :auteur)";
+    public static function enregistrerLivre(Livre $livre)
+    {
+        if ($livre->getid()) {
+            $texteRequete = "UPDATE livre SET titre= :titre, auteur = :auteur WHERE id = :id";
+        } else {
+
+            // INSERT INTO livre (titre, auteur) VALUES (:titre, :auteur)
+            $texteRequete = "INSERT INTO livre (titre, auteur) VALUES (:titre, :auteur)";
+        }
+
         global $pdo;
         $pdostatement = $pdo->prepare($texteRequete);
         $pdostatement->bindValue(":titre", $livre->getTitre());
         $pdostatement->bindValue(":auteur", $livre->getAuteur());
+        if($livre->getId()){
+            $pdostatement->bindValue(":id", $livre->getId());
+        }
         return $pdostatement->execute();
+    }
 
+    public static function selectionner($table, $id)
+    {
+        global $pdo;
+        $pdostatement = $pdo->query("SELECT * FROM $table WHERE id = $id");
+        if ($pdostatement->rowCount() == 1) {
+            $pdostatement->setFetchMode(PDO::FETCH_CLASS, "Modeles\\" . ucfirst($table));
+            return $pdostatement->fetch();
+        } else {
+            return false;
+        }
     }
 }
